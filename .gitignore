@@ -1,3 +1,2 @@
-dist/
-rar
-tmp
+.DS_Store
+logs
