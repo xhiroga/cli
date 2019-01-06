@@ -4,7 +4,7 @@ set -e
 # 引数で指定したフォルダの1改装下のフォルダを全てZIPファイルにする。
 
 function zipr() {
-    dir="$1"
+    dir=$1
     if [ ! -d "${dir}" ]; then
         echo "[dir ${dir} not found]"
         exit 1
@@ -15,8 +15,7 @@ function zipr() {
 export -f zipr
 
 function check_dir() {
-    # ここは""で囲わなくても代入できる
-    dir=$1
+    dir="$1"
     echo "[dir: ${dir}]"
     if [ ! -d "${dir}" ]; then
         echo "[dir ${dir} not found]"
