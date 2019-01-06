@@ -4,9 +4,7 @@ set -e
 # 引数で指定したフォルダの1改装下のフォルダを全てZIPファイルにする。
 
 function zipr() {
-    echo $#
     dir="$1"
-    echo "$1"
     if [ ! -d "${dir}" ]; then
         echo "[dir ${dir} not found]"
         exit 1
