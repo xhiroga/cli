@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# asu (AWS Switch User)
+set -e
+user=$1
+
+ln -f ~/.aws/${user}.config ~/.aws/config
+ln -f ~/.aws/${user}.credentials ~/.aws/credentials
+
+export -n AWS_ACCESS_KEY_ID
+export -n AWS_SECRET_ACCESS_KEY
+export -n AWS_SESSION_TOKEN
+export -n AWS_DEFAULT_PROFILE
+export -n AWS_DEFAULT_REGION
+export -n AWS_DEFAULT_OUTPUT
+export -n AWS_SHARED_CREDENTIALS_FILE
+export -n AWS_CONFIG_FILE
+
+aws configure list
