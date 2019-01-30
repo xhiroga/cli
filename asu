@@ -3,8 +3,9 @@
 
 set -e
 
-echoenv(){
-    echo "Environment variables"
+echoconfig(){
+    aws configure list
+    echo -e "\nEnvironment variables"
     echo "---------------------"
     echo "AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}"
     echo "AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}"
@@ -17,8 +18,8 @@ echoenv(){
 }
 
 exportenv(){
-    export AWS_ACCESS_KEY_ID=$(cat ~/.aws/config | grep aws_access_key_id | awk '{print $3}')
-    export AWS_SECRET_ACCESS_KEY=$(cat ~/.aws/config | grep aws_secret_access_key | awk '{print $3}')
+    export AWS_ACCESS_KEY_ID=$(cat ~/.aws/credentials | grep aws_access_key_id | awk '{print $3}')
+    export AWS_SECRET_ACCESS_KEY=$(cat ~/.aws/credentials | grep aws_secret_access_key | awk '{print $3}')
     export AWS_DEFAULT_REGION=$(cat ~/.aws/config | grep region | awk '{print $3}')
 }
 
@@ -42,12 +43,15 @@ do
 done
 
 if [ "$FLG_ECHO_ENV" = "TRUE" ]; then
-  echoenv
+  echoconfig
   exit 0
 fi
 
 if [ "$FLG_NULL" = "TRUE" ]; then
+  rm -f ~/.aws/config
+  rm -f ~/.aws/credentials
   exportnull
+  echoconfig
   exit 0
 fi
 
@@ -61,7 +65,4 @@ exportnull
 ln -f ~/.aws/${user}.config ~/.aws/config
 ln -f ~/.aws/${user}.credentials ~/.aws/credentials
 exportenv
-
-aws configure list
-echo ""
-echoenv
+echoconfig
