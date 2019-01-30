@@ -3,6 +3,25 @@
 
 set -e
 
+echoenv(){
+    echo "Environment variables"
+    echo "---------------------"
+    echo "AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}"
+    echo "AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}"
+    echo "AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}"
+    echo "AWS_DEFAULT_PROFILE: ${AWS_DEFAULT_PROFILE}"
+    echo "AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}" 
+    echo "AWS_DEFAULT_OUTPUT: ${AWS_DEFAULT_OUTPUT}"
+    echo "AWS_SHARED_CREDENTIALS_FILE: ${AWS_DEFAULT_OUTPUT}"
+    echo "AWS_CONFIG_FILE: ${AWS_DEFAULT_OUTPUT}"
+}
+
+exportenv(){
+    export AWS_ACCESS_KEY_ID=$(cat ~/.aws/config | grep aws_access_key_id | awk '{print $3}')
+    export AWS_SECRET_ACCESS_KEY=$(cat ~/.aws/config | grep aws_secret_access_key | awk '{print $3}')
+    export AWS_DEFAULT_REGION=$(cat ~/.aws/config | grep region | awk '{print $3}')
+}
+
 exportnull(){
     export -n AWS_ACCESS_KEY_ID
     export -n AWS_SECRET_ACCESS_KEY
@@ -17,18 +36,22 @@ exportnull(){
 while getopts en OPT
 do
   case $OPT in
-    "e" ) FLG_SET_ENV="TRUE" ;;
+    "e" ) FLG_ECHO_ENV="TRUE" ;;
     "n" ) FLG_NULL="TRUE" ;;
   esac
 done
+
+if [ "$FLG_ECHO_ENV" = "TRUE" ]; then
+  echoenv
+  exit 0
+fi
 
 if [ "$FLG_NULL" = "TRUE" ]; then
   exportnull
   exit 0
 fi
 
-shift `expr $OPTIND - 1`
-if [ $# -le 1 ]; then
+if [ $# -eq 0 ]; then
   echo "Error: no user." 1>&2
   exit 1
 fi
@@ -37,5 +60,8 @@ user=$1
 exportnull
 ln -f ~/.aws/${user}.config ~/.aws/config
 ln -f ~/.aws/${user}.credentials ~/.aws/credentials
+exportenv
 
 aws configure list
+echo ""
+echoenv
