@@ -20,15 +20,9 @@ echoconfig(){
 while getopts en OPT
 do
   case $OPT in
-    "e" ) FLG_ECHO_ENV="TRUE" ;;
     "n" ) FLG_NULL="TRUE" ;;
   esac
 done
-
-if [ "$FLG_ECHO_ENV" = "TRUE" ]; then
-  echoconfig
-  exit 0
-fi
 
 if [ "$FLG_NULL" = "TRUE" ]; then
   rm -f ~/.aws/config
@@ -38,8 +32,8 @@ if [ "$FLG_NULL" = "TRUE" ]; then
 fi
 
 if [ $# -eq 0 ]; then
-  echo "Error: no user." 1>&2
-  exit 1
+  echoconfig
+  exit 0
 fi
 
 user=$1
