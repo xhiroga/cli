@@ -1,0 +1,4 @@
+#!/bin/bash
+set -eu
+
+curl http://checkip.amazonaws.com/
