@@ -1,4 +1,5 @@
 #!/bin/bash
 set -eu
 
-curl http://checkip.amazonaws.com/
+curl ifconfig.me
+# curl http://checkip.amazonaws.com/
