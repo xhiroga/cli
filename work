@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+
+if [ $# -lt 1 ]
+then
+    echo 'You should specify a workspace.'
+    exit 1
+fi
+
+WORKSPACE_PATH=~/code-workspaces/${1}.code-workspace
+
+if [ -e ${WORKSPACE_PATH} ]
+then
+    code ${WORKSPACE_PATH}
+    exit 0
+else
+    echo "Workspace ${WORKSPACE_PATH} is not found."
+    exit 1
+fi
