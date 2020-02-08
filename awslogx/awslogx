@@ -29,7 +29,7 @@ fi
 if [ ! -z $AWSLOGS_INTERACTIVE ] && [ $COMMAND == "get" ]
 then
     AWSLOGS_PURE_OPTIONS=$(echo "$AWSLOGS_OPTIONS" | sed 's/get//g' | sed 's/-l//g' )
-    /usr/local/bin/awslogs get $(awslogs groups $AWS_PROFILE_OPTION | peco) $AWSLOGS_PURE_OPTIONS
+    awslogs get $(awslogs groups $AWS_PROFILE_OPTION | peco) $AWSLOGS_PURE_OPTIONS
 else
-    /usr/local/bin/awslogs $AWSLOGS_OPTIONS
+    awslogs $AWSLOGS_OPTIONS
 fi
