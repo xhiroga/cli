@@ -1,0 +1,35 @@
+#!/bin/bash
+
+AWSLOGS_OPTIONS="$@"
+COMMAND=$1
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --profile)
+            AWS_PROFILE=$2
+            shift 2
+        ;;
+        -l)
+            AWSLOGS_INTERACTIVE=1
+            shift 1
+        ;;
+        *)
+            shift 1
+        ;;
+    esac
+done
+
+if [ -z $AWS_PROFILE ]
+then
+    AWS_PROFILE_OPTION=""
+else
+    AWS_PROFILE_OPTION="--profile $AWS_PROFILE"
+fi
+
+if [ ! -z $AWSLOGS_INTERACTIVE ] && [ $COMMAND == "get" ]
+then
+    AWSLOGS_PURE_OPTIONS=$(echo "$AWSLOGS_OPTIONS" | sed 's/get//g' | sed 's/-l//g' )
+    awslogs get $(awslogs groups $AWS_PROFILE_OPTION | peco) $AWSLOGS_PURE_OPTIONS
+else
+    awslogs $AWSLOGS_OPTIONS
+fi
