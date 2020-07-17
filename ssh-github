@@ -1,0 +1,27 @@
+#!/bin/sh
+
+EMAIL=$1
+PASSPHRASE=$2
+GITHUB_USER=$3
+COMMENT="$EMAIL"
+
+TYPE=rsa
+
+mkdir -p "$HOME/.ssh"
+OUTPUT_PATH="$HOME/.ssh/id_rsa"
+ssh-keygen -t "$TYPE" -b 4096 -C "$COMMENT" -N "$PASSPHRASE" -f "$OUTPUT_PATH"
+
+CONFIG="$HOME/.ssh/config"
+touch "$CONFIG"
+cat >> "$CONFIG" << EOF
+
+Host github github.com
+    AddKeysToAgent yes
+    HostName github.com
+    IdentityFile $OUTPUT_PATH
+    UseKeychain yes
+    User $GITHUB_USER
+
+EOF
+
+open "https://help.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account"
