@@ -1,0 +1,2 @@
+#!/bin/sh
+docker run --env AWS_DEFAULT_REGION --env AWS_REGION --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY --env AWS_SESSION_TOKEN --env AWS_SECURITY_TOKEN --env AWS_SESSION_EXPIRATION --rm -it -v "$HOME/.aws:/root/.aws" hiroga/dql:latest "$@"

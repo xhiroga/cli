@@ -1,4 +1,4 @@
 mkdir -p ~/.local/bin
-ln -f ./awslogs/awslogs ~/.local/bin/awslogs
+ln -f ./awslogx/awslogx ~/.local/bin/awslogx
 find . -maxdepth 1 -type f ! -name ".git" ! -path "./.git/*" ! -name ".gitignore" ! -name "init.sh" ! -name "README.md" |\
     xargs -I {} ln -f {} ~/.local/bin/{}
