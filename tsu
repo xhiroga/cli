@@ -1,0 +1,9 @@
+#!/bin/bash
+# tsu
+
+set -e
+
+user=$1
+echo -e "Info: substitute user to ${user}\n"
+
+ln -f ~/.terraform.d/${user}.credentials.tfrc.json ~/.terraform.d/credentials.tfrc.json
